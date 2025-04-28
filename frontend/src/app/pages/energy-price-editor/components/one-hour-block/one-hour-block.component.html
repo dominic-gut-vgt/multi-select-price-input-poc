@@ -1,0 +1,11 @@
+<div class="one-hour-block">
+  <div class="block-infos">
+    <p>{{hour()}} - {{hour()+1}}</p>
+  </div>
+  <div class="chart">
+    @for(quarterHour of quarterHouerValues();track $index){
+    <div [ngClass]="quarterHourChangeAllowed()[$index]?'bar change-allowed':'bar'"
+      [ngStyle]="{'height':quarterHourValuesAsPercentages()[$index]+'%'}"></div>
+    }
+  </div>
+</div>

@@ -1,0 +1,7 @@
+<div class="one-day-grid">
+  @for(quarterHouerValues of oneDayData()?.prices;track $index){
+    <div class="one-hour-container">
+      <app-one-hour-block [hour]="$index" [quarterHouerValues]="quarterHouerValues"[quarterHourChangeAllowed]="quarterHourChangeAllowedMap()[$index]" [maxInterdayValue]="maxInterdayValue()"  ></app-one-hour-block>
+    </div>
+  } 
+</div>

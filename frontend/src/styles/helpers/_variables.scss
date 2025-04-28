@@ -1,0 +1,128 @@
+:root {
+  /*************************
+        || FONT FAMILY
+  **************************/
+  --font-primary: 'Open Sans', sans-serif;
+
+  /*************************
+      || FONT COLOR
+**************************/
+  --fix-text-black: #000;
+  --fix-text-grey: #595757;
+  --fix-text-white: #fff;
+  --fix-text-error: #f84444;
+  --white-only: #fff;
+  --black-only: #000;
+
+  /*************************
+    || GRAYSCALE
+**************************/
+  --gray-50: #fcfafa;
+  --gray-100: #f3efef;
+  --gray-300: #d5d0d0;
+  --gray-500: #bdbaba;
+  --gray-700: #595757;
+  --gray-800: #323030;
+  --gray-low: var(--gray-50);
+  --gray-medium: var(--gray-100);
+  --gray-high: var(--gray-300);
+
+  /*************************
+    || FIX STATE
+**************************/
+  --fix-state-hover: rgb(150 120 120 / 8%);
+  --fix-state-enabled: rgb(150 120 120 / 4%);
+
+  /*************************
+    || FONT SIZE
+**************************/
+  --fs-8: 8px;
+  --fs-12: 12px;
+  --fs-14: 14px;
+  --fs-16: 16px;
+  --fs-18: 18px;
+  --fs-20: 20px;
+  --fs-24: 24px;
+  --fs-26: 26px;
+  --fs-28: 28px;
+  --fs-30: 30px;
+  --fs-32: 32px;
+  --fs-34: 34px;
+  --fs-36: 36px;
+  --fs-38: 38px;
+  --fs-120: 120px;
+
+  /*************************
+    || RADIUS
+**************************/
+  --radius-xs: 6px;
+  --radius-s: 12px;
+  --radius-m: 16px;
+  --radius-l: 36px;
+  --radius-xl: 100px;
+
+  /*************************
+ || SPACING
+**************************/
+  --space-0: 0rem;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 3rem;
+
+  /*************************
+    || FEEDBACK COLORS
+**************************/
+  --completed-color: #0c8f43;
+  --success-color: #00ceaf;
+  --warning-color: #ffaf2a;
+  --danger-color: #e95e2f;
+  --waiting-color: #fff362;
+
+  /*************************
+    || ENERGY COLORS
+**************************/
+  --solar-energy-color: #ffaf2a;
+  --water-energy-color: #00d8ff;
+  --wind-energy-color: #68a5eb;
+  --biogas-energy-color: #4aa577;
+  --residual-energy-color: #f48946;
+  --nuclear-energy-color: #000;
+
+  /*************************
+    || UI ELEMENTS
+**************************/
+  --accent-button-color: #ffaf2a;
+  --flat-button-text-color: #fff;
+  --stroked-button-text-color: #ffaf2a;
+  --button-text-color: #ffaf2a;
+  --ui-element-color: #ffaf2a;
+
+  /* Light Theme */
+  --fix-login-background-color-light-theme: rgb(255 255 255 / 50%);
+
+  /* Dark Theme */
+  --fix-login-background-color-dark-theme: rgb(0 0 0 / 50%);
+
+  /*************************
+    || APPEARANCE
+**************************/
+  --preview-bg-fill: var(--mat-sys-surface);
+
+  /*************************
+    || NAVIGATION
+**************************/
+  --custom-navigation-tab-enabled-on: #fff;
+  --custom-navigation-tab-enabled-fill: rgb(150 120 120 / 4%);
+  --custom-navigation-tab-focused-fill: #272727;
+  --custom-navigation-tab-focused-on: #fff;
+  --custom-navigation-tab-hovered-fill: #f3efef;
+  --custom-navigation-tab-hovered-on: #272727;
+  --custom-radius-nav: 100px;
+
+  /*************************
+|| BOX-SHADOWS
+**************************/
+  --fix-box-boxshadow: rgb(150 120 120 / 6%);
+}
