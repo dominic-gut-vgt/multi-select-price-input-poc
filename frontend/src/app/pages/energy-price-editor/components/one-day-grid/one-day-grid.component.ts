@@ -39,10 +39,10 @@ export class OneDayGridComponent {
   });
 
   // flags
-  protected quarterHourSelection= signal<boolean[][]>(Array.from({ length: 24 }, () => Array.from({ length: 4 }, () => false)));
+  protected quarterHoursSelection = signal<boolean[][]>(Array.from({ length: 24 }, () => Array.from({ length: 4 }, () => false))); // which quarter hours are selected
 
   //derived flags
-  protected quarterHourChangeAllowedMap = computed(() => {
+  protected quarterHourChangeAllowed = computed(() => {
     const allowedMap = Array.from({ length: 24 }, () => Array.from({ length: 4 }, () => false));
     const now = new Date();
     const currentDayOfData = new Date(this.oneDayData().date);
@@ -64,11 +64,41 @@ export class OneDayGridComponent {
 
 
   protected selectRow(rowInd: number): void {
-    
+    console.log(rowInd);
+    this.quarterHoursSelection.update(state => {
+      const newState: boolean[][] = JSON.parse(JSON.stringify(state));
+      for (let i = 0; i < 24; i++) {
+        for (let j = 0; j < 4; j++) {
+          if (i >= rowInd * this.itemsPerRow && i < rowInd * this.itemsPerRow + 4) {
+            newState[i][j] = true;
+          }
+        }
+      }
+      return newState;
+    });
   }
 
   protected selectCol(colInd: number): void {
+    this.quarterHoursSelection.update(state => {
+      const newState: boolean[][] = JSON.parse(JSON.stringify(state));
+      for (let i = 0; i < 24; i++) {
+        for (let j = 0; j < 4; j++) {
+          if (i % 4 === colInd) {
+            newState[i][j] = true;
+          }
+        }
+      }
+      return newState;
+    });
+  }
 
+  protected onOneHourQuarterHoursSelecionChange(quarterHoursSelection: boolean[], hour: number): void {
+    console.log("now");
+    this.quarterHoursSelection.update((state) => {
+      const newState: boolean[][] = JSON.parse(JSON.stringify(state));
+      newState[hour] = quarterHoursSelection;
+      return newState;
+    })
   }
 
 

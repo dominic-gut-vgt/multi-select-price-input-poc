@@ -17,15 +17,21 @@
     display: flex;
     align-items: flex-end;
     border-bottom: solid 1px var(--gray-300);
+    position: relative;
+    z-index: 2;
 
     .bar{
       width: calc(100% / 4 - var(--space-1) * 2);
       margin:0px var(--space-1);
       background-color: var(--gray-300);
-      transition: 0.4s height;
+      transition: 0.4s height, 0.4s background-color;
 
       &.change-allowed{
-        background-color: rgb(81, 165, 221);
+        background-color: var(--secondary-color);
+      }
+
+      &.selected{
+        background-color: var(--primary-color);
       }
     }
   }

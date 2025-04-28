@@ -15,11 +15,22 @@ export class OneHourBlockComponent {
   quarterHourValues = model.required<number[]>(); // 4 quarter hours in an hour
   quarterHoursSelection = model.required<boolean[]>(); // 4 values if quarter hour is selected
 
-  //outputs
-  quarterHoursSelectionChanged = output<number[]>;
-
   protected quarterHourValuesAsPercentages = computed(() => {
     return this.quarterHourValues().map(val => val / this.maxInterdayValue() * 100);
   });
+
+  protected toggleQuarterHourSelection(ind: number): void {
+    this.quarterHoursSelection.update((state) => {
+      const newState: boolean[] = [...state];
+      newState[ind] = !newState[ind];
+      return newState;
+    });
+  }
+
+  protected setSelectedOfFullHour(isSelected:boolean): void {
+    this.quarterHoursSelection.update((state) => {
+      return Array.from({ length: state.length }, () => isSelected);
+    });
+  }
 
 }

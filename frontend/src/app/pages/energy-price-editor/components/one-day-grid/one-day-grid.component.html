@@ -15,8 +15,8 @@
   }
   <div class="one-hour-container">
     <app-one-hour-block [hour]="$index" [quarterHourValues]="quarterHouerValues"
-      [quarterHourChangeAllowed]="quarterHourChangeAllowedMap()[$index]" [quarterHoursSelection]="quarterHourSelection()[$index]"
-      [maxInterdayValue]="maxInterdayValue()"></app-one-hour-block>
+      [quarterHourChangeAllowed]="quarterHourChangeAllowed()[$index]" [quarterHoursSelection]="quarterHoursSelection()[$index]"
+      [maxInterdayValue]="maxInterdayValue()" (quarterHoursSelectionChange)="onOneHourQuarterHoursSelecionChange($event,$index)" ></app-one-hour-block>
   </div>
   }
 </div>

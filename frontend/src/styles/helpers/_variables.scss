@@ -81,6 +81,12 @@
   --waiting-color: #fff362;
 
   /*************************
+    || ACCENT COLORS
+**************************/
+  --primary-color: #ffaf2a;
+  --secondary-color: #2abcff;
+
+  /*************************
     || ENERGY COLORS
 **************************/
   --solar-energy-color: #ffaf2a;
@@ -125,5 +131,5 @@
 || BOX-SHADOWS
 **************************/
   --fix-box-boxshadow: rgb(150 120 120 / 20%);
-  --box-shadow-std:0px 10px 10px var(--fix-box-boxshadow);
+  --box-shadow-std: 0px 10px 10px var(--fix-box-boxshadow);
 }
