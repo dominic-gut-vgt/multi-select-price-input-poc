@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, input, model, signal } from '@angular/core';
+import { Component, computed, input, model, output, signal } from '@angular/core';
 
 @Component({
   selector: 'app-one-hour-block',
@@ -11,11 +11,15 @@ export class OneHourBlockComponent {
   //inputs
   hour = input.required<number>();
   maxInterdayValue = input.required<number>();
-  quarterHouerValues = model.required<number[]>(); // 4 quarter hours in an hour
-  quarterHourChangeAllowed = model.required<boolean[]>(); //4 booleans if hour could be changed
+  quarterHourChangeAllowed = input.required<boolean[]>(); //4 booleans if hour could be changed
+  quarterHourValues = model.required<number[]>(); // 4 quarter hours in an hour
+  quarterHoursSelection = model.required<boolean[]>(); // 4 values if quarter hour is selected
+
+  //outputs
+  quarterHoursSelectionChanged = output<number[]>;
 
   protected quarterHourValuesAsPercentages = computed(() => {
-    return this.quarterHouerValues().map(val => val / this.maxInterdayValue()*100);
+    return this.quarterHourValues().map(val => val / this.maxInterdayValue() * 100);
   });
 
 }

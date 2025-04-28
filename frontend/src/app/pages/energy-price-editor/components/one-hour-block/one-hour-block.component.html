@@ -1,10 +1,14 @@
 <div class="one-hour-block">
   <div class="block-infos">
-    <p>{{hour()}} - {{hour()+1}}</p>
+    <p>{{hour()}} - {{hour()+1}} Uhr</p>
   </div>
   <div class="chart">
-    @for(quarterHour of quarterHouerValues();track $index){
-    <div [ngClass]="quarterHourChangeAllowed()[$index]?'bar change-allowed':'bar'"
+    @for(quarterHour of quarterHourValues();track $index){
+    <div [ngClass]="{
+      'bar':true,
+      'change-allowed':quarterHourChangeAllowed()[$index],
+      'selected':quarterHoursSelection()[$index]
+    }"
       [ngStyle]="{'height':quarterHourValuesAsPercentages()[$index]+'%'}"></div>
     }
   </div>

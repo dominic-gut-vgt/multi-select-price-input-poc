@@ -1,7 +1,22 @@
+<div class="grid-header">
+  @for(ind of [].constructor(4);track $index){
+  <button class="header-item" (click)="selectCol($index)">
+    <p class="mb-0">col {{$index+1}}</p>
+  </button>
+  }
+</div>
 <div class="one-day-grid">
-  @for(quarterHouerValues of oneDayData()?.prices;track $index){
-    <div class="one-hour-container">
-      <app-one-hour-block [hour]="$index" [quarterHouerValues]="quarterHouerValues"[quarterHourChangeAllowed]="quarterHourChangeAllowedMap()[$index]" [maxInterdayValue]="maxInterdayValue()"  ></app-one-hour-block>
-    </div>
-  } 
+  @for(quarterHouerValues of oneDayData().prices;track $index){
+  @if($index%4===0){
+  <button class="row-info-item" (click)="selectRow($index/4)">
+    <p class="mb-0 fw-bolder">{{$index}} - {{$index+4}} Uhr</p>
+    <p>Max {{rowBounds()[$index/4].max}}, Min {{rowBounds()[$index / 4].min}}</p>
+  </button>
+  }
+  <div class="one-hour-container">
+    <app-one-hour-block [hour]="$index" [quarterHourValues]="quarterHouerValues"
+      [quarterHourChangeAllowed]="quarterHourChangeAllowedMap()[$index]" [quarterHoursSelection]="quarterHourSelection()[$index]"
+      [maxInterdayValue]="maxInterdayValue()"></app-one-hour-block>
+  </div>
+  }
 </div>
