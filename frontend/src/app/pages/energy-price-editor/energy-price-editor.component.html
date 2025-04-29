@@ -1,14 +1,13 @@
 <section>
   <div class="container">
     <div class="row py-5 my-5">
-      <div class="col-12">
-        <mat-form-field class="example-form-field">
-          <mat-label>Price input</mat-label>
+      <div class="col-12 d-flex justify-content-end">
+        <mat-form-field class="w-50">
+          <mat-label>Preis für ausgewählte Viertelstunden</mat-label>
           <input matInput type="number" [min]="0" [(ngModel)]="price" (input)="onPriceInputChange()">
         </mat-form-field>
       </div>
       <div class="col-12">
-        <app-selection-configurator></app-selection-configurator>
         <app-one-day-grid [oneDayData]="currentSelectedDayData()" ></app-one-day-grid>
       </div>
     </div>

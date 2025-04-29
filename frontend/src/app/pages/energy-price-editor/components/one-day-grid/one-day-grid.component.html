@@ -1,18 +1,28 @@
+<!-- Header item -->
 <div class="grid-header">
   @for(ind of [].constructor(4);track $index){
-  <button class="header-item" (click)="selectCol($index)">
+  <button class="header-item" (click)="selectCol($index)"
+    (mouseenter)="specialSelectorHoverChange($index,true,specialSelectorType.Col)"
+    (mouseleave)="specialSelectorHoverChange($index,false,specialSelectorType.Col)">
     <p class="mb-0">col {{$index+1}}</p>
   </button>
   }
 </div>
+
+<!-- One day Grid -->
 <div class="one-day-grid">
   @for(quarterHouerValues of oneDayData().prices;track $index){
+
+  <!-- Row info item -->
   @if($index%4===0){
-  <button class="row-info-item" (click)="selectRow($index/4)">
+  <button class="row-info-item" (click)="selectRow($index/4)"
+    (mouseenter)="specialSelectorHoverChange($index/4,true,specialSelectorType.Row)"
+    (mouseleave)="specialSelectorHoverChange($index/4,false,specialSelectorType.Row)">
     <p class="mb-0 fw-bolder">{{$index}} - {{$index+4}} Uhr</p>
     <p>Max {{rowBounds()[$index/4].max}}, Min {{rowBounds()[$index / 4].min}}</p>
   </button>
   }
+
   <div class="one-hour-container">
     <!-- One hour block -->
     <app-one-hour-block [index]="$index" [quarterHourValues]="quarterHouerValues"
@@ -20,17 +30,20 @@
       [quarterHoursSelection]="quarterHoursSelection()[$index]" [maxInterdayValue]="maxInterdayValue()"
       (quarterHoursSelectionChange)="onOneHourQuarterHoursSelecionChange($event,$index)"></app-one-hour-block>
 
-    <!-- quartet selector -->
     @if(!($index%itemsPerRow===3)){
-    @if($index<20){ <button class="quartet-selector special-selector" (click)="selectQuartet($index)">
-      <div class="special-selector-visualisation"></div>
+    @if($index<20){ <!-- quartet selector -->
+      <button class="quartet-selector special-selector" (click)="selectQuartet($index)"
+        (mouseenter)="specialSelectorHoverChange($index,true,specialSelectorType.Quartet)"
+        (mouseleave)="specialSelectorHoverChange($index,false,specialSelectorType.Quartet)">
+        <div class="special-selector-visualisation"></div>
       </button>
       }
 
-
       <!-- dual selector horizontal-->
       <div class="dual-selector-horizontal-container">
-        <button class="dual-selector-horizontal special-selector" (click)="selectTwoHorizontal($index)">
+        <button class="dual-selector-horizontal special-selector" (click)="selectTwoHorizontal($index)"
+          (mouseenter)="specialSelectorHoverChange($index,true,specialSelectorType.DuoHorizontal)"
+          (mouseleave)="specialSelectorHoverChange($index,false,specialSelectorType.DuoHorizontal)">
           <div class="special-selector-visualisation"></div>
         </button>
       </div>
@@ -38,7 +51,9 @@
 
       <!-- dual selector vertical-->
       @if($index<20){ <div class="dual-selector-vertical-container">
-        <button class="dual-selector-vertical special-selector" (click)="selectTwoVertical($index)">
+        <button class="dual-selector-vertical special-selector" (click)="selectTwoVertical($index)"
+          (mouseenter)="specialSelectorHoverChange($index,true,specialSelectorType.DuoVertical)"
+          (mouseleave)="specialSelectorHoverChange($index,false,specialSelectorType.DuoVertical)">
           <div class="special-selector-visualisation"></div>
         </button>
   </div>

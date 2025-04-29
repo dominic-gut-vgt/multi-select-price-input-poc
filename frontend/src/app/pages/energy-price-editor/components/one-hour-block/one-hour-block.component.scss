@@ -4,10 +4,16 @@ $chart-height:70px;
   width: calc(100%);
   width: calc(100%);
   padding: var(--space-3);
-  box-shadow: var(--box-shadow-std);
-  border: solid 1px var(--gray-100);
   border-radius: var(--radius-m);
   position: relative;
+  box-shadow: var(--box-shadow-std);
+  border: solid 1px var(--gray-100);
+  transition: 0.4s border, 0.4s box-shadow;
+
+  &.highlighted{
+    border: solid 1px var(--gray-500);
+    box-shadow: var(--box-shadow-strong);
+  }
 
   .clickable-bg {
     position: absolute;

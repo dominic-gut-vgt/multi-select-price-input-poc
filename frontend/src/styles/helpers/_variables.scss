@@ -130,6 +130,7 @@
   /*************************
 || BOX-SHADOWS
 **************************/
-  --fix-box-boxshadow: rgb(150 120 120 / 15%);
-  --box-shadow-std: 0px 5px 15px var(--fix-box-boxshadow);
+  --box-shadow-std: 0px 5px 15px rgb(150 120 120 / 15%);
+  --box-shadow-strong: 0px 10px 15px rgb(150 120 120 / 25%);
+
 }

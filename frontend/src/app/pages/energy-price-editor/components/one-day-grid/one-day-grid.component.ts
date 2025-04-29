@@ -8,6 +8,14 @@ interface RowBounds {
   max: number
 }
 
+enum SpecialSelectorType {
+  Quartet,
+  DuoVertical,
+  DuoHorizontal,
+  Row,
+  Col
+}
+
 @Component({
   selector: 'app-one-day-grid',
   templateUrl: './one-day-grid.component.html',
@@ -20,6 +28,7 @@ export class OneDayGridComponent {
 
   //consts
   protected readonly itemsPerRow = 4;
+  protected readonly specialSelectorType = SpecialSelectorType;
   private readonly changeAllowedAfterThresholdMS = 15 * 60 * 1000; //15 min. Values more than this time in the future are editable. 
 
   //viewchildren
@@ -70,45 +79,49 @@ export class OneDayGridComponent {
 
   //selection----------------------------------------
   protected selectRow(rowInd: number): void {
-    const oneHourBlocksToSelect = this.oneHourBlocks()?.filter(block => block.index() >= rowInd * this.itemsPerRow && block.index() < rowInd * this.itemsPerRow + this.itemsPerRow);
+    const oneHourBlocksToSelect = this.getOneHourBlocksRow(rowInd);
     const isSelected = !this.getAllQuarterHoursOfOneHourBlocksAreSelected(oneHourBlocksToSelect);
     oneHourBlocksToSelect.forEach(block => block?.setSelectedOfFullHour(true, isSelected))
   }
 
   protected selectCol(colInd: number): void {
-    const oneHourBlocksToSelect = this.oneHourBlocks()?.filter(block => block.index() % this.itemsPerRow === colInd);
+    const oneHourBlocksToSelect = this.getOneHourBlocksCol(colInd);
     const isSelected = !this.getAllQuarterHoursOfOneHourBlocksAreSelected(oneHourBlocksToSelect);
     oneHourBlocksToSelect.forEach(block => block?.setSelectedOfFullHour(true, isSelected))
   }
 
   //special selectors
   protected selectQuartet(ind: number): void {
-    const oneHourBlocksToSelect = [
-      this.oneHourBlocks()?.at(ind),
-      this.oneHourBlocks()?.at(ind + 1),
-      this.oneHourBlocks()?.at(ind + this.itemsPerRow),
-      this.oneHourBlocks()?.at(ind + this.itemsPerRow + 1),
-    ]
+    const oneHourBlocksToSelect = this.getOneHourBlocksQuartet(ind);
     const isSelected = !this.getAllQuarterHoursOfOneHourBlocksAreSelected(oneHourBlocksToSelect);
     oneHourBlocksToSelect.forEach(block => block?.setSelectedOfFullHour(true, isSelected))
   }
 
   protected selectTwoVertical(ind: number): void {
-    const oneHourBlocksToSelect = [
-      this.oneHourBlocks()?.at(ind),
-      this.oneHourBlocks()?.at(ind + this.itemsPerRow),
-    ]
+    const oneHourBlocksToSelect = this.getOneHourBlocksDuoVertical(ind);
     const isSelected = !this.getAllQuarterHoursOfOneHourBlocksAreSelected(oneHourBlocksToSelect);
     oneHourBlocksToSelect.forEach(block => block?.setSelectedOfFullHour(true, isSelected))
   }
 
   protected selectTwoHorizontal(ind: number): void {
-    const oneHourBlocksToSelect = [
-      this.oneHourBlocks()?.at(ind),
-      this.oneHourBlocks()?.at(ind + 1),
-    ]
+    const oneHourBlocksToSelect = this.getOneHourBlocksDuoHorizontal(ind);
     const isSelected = !this.getAllQuarterHoursOfOneHourBlocksAreSelected(oneHourBlocksToSelect);
     oneHourBlocksToSelect.forEach(block => block?.setSelectedOfFullHour(true, isSelected))
+  }
+
+  //sepcial selectors on hover
+  specialSelectorHoverChange(ind: number, isOver: boolean, specialSelectorType: SpecialSelectorType): void {
+    console.log(ind, isOver, specialSelectorType);
+    let oneHourBlocksToHighlight: (OneHourBlockComponent | undefined)[] = [];
+    switch (specialSelectorType) {
+      case SpecialSelectorType.Row: oneHourBlocksToHighlight = this.getOneHourBlocksRow(ind); break;
+      case SpecialSelectorType.Col: oneHourBlocksToHighlight = this.getOneHourBlocksCol(ind); break;
+      case SpecialSelectorType.Quartet: oneHourBlocksToHighlight = this.getOneHourBlocksQuartet(ind); break;
+      case SpecialSelectorType.DuoVertical: oneHourBlocksToHighlight = this.getOneHourBlocksDuoVertical(ind); break;
+      case SpecialSelectorType.DuoHorizontal: oneHourBlocksToHighlight = this.getOneHourBlocksDuoHorizontal(ind); break;
+    }
+
+    oneHourBlocksToHighlight.forEach(block => block?.setIsHighlighted(isOver));
   }
 
   //events
@@ -121,6 +134,35 @@ export class OneDayGridComponent {
   }
 
   //getters---------------------------------------------
+  getOneHourBlocksRow(rowInd: number): (OneHourBlockComponent | undefined)[] {
+    return this.oneHourBlocks()?.filter(block => block.index() >= rowInd * this.itemsPerRow && block.index() < rowInd * this.itemsPerRow + this.itemsPerRow);
+  }
+  getOneHourBlocksCol(colInd: number): (OneHourBlockComponent | undefined)[] {
+    return this.oneHourBlocks()?.filter(block => block.index() % this.itemsPerRow === colInd);
+  }
+  getOneHourBlocksQuartet(ind: number): (OneHourBlockComponent | undefined)[] {
+    return [
+      this.oneHourBlocks()?.at(ind),
+      this.oneHourBlocks()?.at(ind + 1),
+      this.oneHourBlocks()?.at(ind + this.itemsPerRow),
+      this.oneHourBlocks()?.at(ind + this.itemsPerRow + 1),
+    ]
+  }
+
+  getOneHourBlocksDuoVertical(ind: number): (OneHourBlockComponent | undefined)[] {
+    return [
+      this.oneHourBlocks()?.at(ind),
+      this.oneHourBlocks()?.at(ind + this.itemsPerRow),
+    ]
+  }
+
+  getOneHourBlocksDuoHorizontal(ind: number): (OneHourBlockComponent | undefined)[] {
+    return [
+      this.oneHourBlocks()?.at(ind),
+      this.oneHourBlocks()?.at(ind + 1),
+    ]
+  }
+
   getQuarterHoursSelection(): boolean[][] {
     return this.quarterHoursSelection();
   }

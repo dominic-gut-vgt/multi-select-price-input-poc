@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, model, signal, viewChild, viewChildren } from '@angular/core';
+import { Component, computed, model, signal, viewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { SelectionConfiguratorComponent } from './components/selection-configurator/selection-configurator.component';
 import { OneDayGridComponent } from './components/one-day-grid/one-day-grid.component';
 import { OneDayData } from './interfaces/one-day-data.interface';
 import { PRICE_VALUES_DUMMY_DATA_ONE, PRICE_VALUES_DUMMY_DATA_TWO } from './components/dummy-data/price-values-dummy-data';
@@ -14,7 +13,7 @@ import { PRICE_VALUES_DUMMY_DATA_ONE, PRICE_VALUES_DUMMY_DATA_TWO } from './comp
   selector: 'app-energy-price-editor',
   templateUrl: './energy-price-editor.component.html',
   styleUrl: './energy-price-editor.component.scss',
-  imports: [CommonModule, SelectionConfiguratorComponent, OneDayGridComponent, MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule, OneDayGridComponent, MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule, MatIconModule],
 })
 export class EnergyPriceEditorComponent {
 
