@@ -9,7 +9,7 @@ import { Component, computed, input, model, output, signal } from '@angular/core
 })
 export class OneHourBlockComponent {
   //inputs
-  hour = input.required<number>();
+  index = input.required<number>();
   maxInterdayValue = input.required<number>();
   quarterHourChangeAllowed = input.required<boolean[]>(); //4 booleans if hour could be changed
   quarterHourValues = model.required<number[]>(); // 4 quarter hours in an hour
@@ -27,10 +27,20 @@ export class OneHourBlockComponent {
     });
   }
 
-  protected setSelectedOfFullHour(isSelected:boolean): void {
+  public setSelectedOfFullHour(force:boolean=false,isSelected:boolean=true): void {
+    if(!force){
+      if (this.quarterHoursSelection().find(s => !s) === undefined) {
+        isSelected = false;
+      }
+    }
+   
     this.quarterHoursSelection.update((state) => {
       return Array.from({ length: state.length }, () => isSelected);
     });
+  }
+
+  public getAllQuarterHoursSelected(): boolean {
+    return this.quarterHoursSelection().find(s => !s) === undefined;
   }
 
 }

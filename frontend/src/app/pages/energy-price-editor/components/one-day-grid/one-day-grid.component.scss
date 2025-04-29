@@ -4,10 +4,9 @@
 
   .header-item {
     margin: var(--space-2);
-    padding: var(--space-3);
+    padding: var(--space-2);
     width: calc(100% / 4);
-    box-shadow: var(--box-shadow-std);
-    border-radius: var(--radius-m);
+
     display: flex;
     justify-content: center;
   }
@@ -21,17 +20,64 @@
   .row-info-item {
     width: calc(100% / 5 - var(--space-2));
     padding: var(--space-2);
-    margin: var(--space-2) var(--space-2) var(--space-2) 0px ;
-    box-shadow: var(--box-shadow-std);
-    border-radius: var(--radius-m);
+    margin: var(--space-2) var(--space-2) var(--space-2) 0px;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
+    align-items: flex-end;
   }
 
   .one-hour-container {
     width: calc(100% / 5);
     padding: var(--space-2);
+    position: relative;
+
+    // special selectors----------------------
+    $special-selector-size: var(--space-4);
+    $special-selector-shift: calc(-1 * $special-selector-size / 2);
+
+    .special-selector {
+      width: $special-selector-size;
+      height: $special-selector-size;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 3;
+
+     .special-selector-visualisation{
+      width: var(--space-2);
+      height: var(--space-2);
+      background-color: var(--gray-100);
+      border-radius: 50%;
+     }
+    }
+
+    .quartet-selector {
+      position: absolute;
+      bottom: $special-selector-shift;
+      right: $special-selector-shift;
+    }
+
+    .dual-selector-vertical-container {
+      position: absolute;
+      bottom:  $special-selector-shift;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .dual-selector-horizontal-container {
+      position: absolute;
+      top: 0;
+      right: $special-selector-shift;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+
   }
 }

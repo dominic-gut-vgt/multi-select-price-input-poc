@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, input, output, signal } from '@angular/core';
+import { Component, computed, input, output, signal, viewChildren } from '@angular/core';
 import { OneHourBlockComponent } from '../one-hour-block/one-hour-block.component';
 import { OneDayData } from '../../interfaces/one-day-data.interface';
 
@@ -19,7 +19,10 @@ export class OneDayGridComponent {
   oneDayData = input.required<OneDayData>();
 
   //consts
-  private readonly itemsPerRow = 4;
+  protected readonly itemsPerRow = 4;
+
+  //viewchildren
+  private oneHourBlocks = viewChildren(OneHourBlockComponent);
 
   //derived data
   protected maxInterdayValue = computed(() => {
@@ -57,43 +60,54 @@ export class OneDayGridComponent {
         }
       }
     }
-
-
     return allowedMap
   });
 
 
   protected selectRow(rowInd: number): void {
-    console.log(rowInd);
-    this.quarterHoursSelection.update(state => {
-      const newState: boolean[][] = JSON.parse(JSON.stringify(state));
-      for (let i = 0; i < 24; i++) {
-        for (let j = 0; j < 4; j++) {
-          if (i >= rowInd * this.itemsPerRow && i < rowInd * this.itemsPerRow + 4) {
-            newState[i][j] = true;
-          }
-        }
-      }
-      return newState;
-    });
+    const oneHourBlocksToSelect = this.oneHourBlocks()?.filter(block => block.index() >= rowInd * this.itemsPerRow && block.index() < rowInd * this.itemsPerRow + this.itemsPerRow);
+    const isSelected = !this.getAllQuarterHoursOfOneHourBlocksAreSelected(oneHourBlocksToSelect);
+    oneHourBlocksToSelect.forEach(block => block?.setSelectedOfFullHour(true, isSelected))
   }
 
   protected selectCol(colInd: number): void {
-    this.quarterHoursSelection.update(state => {
-      const newState: boolean[][] = JSON.parse(JSON.stringify(state));
-      for (let i = 0; i < 24; i++) {
-        for (let j = 0; j < 4; j++) {
-          if (i % 4 === colInd) {
-            newState[i][j] = true;
-          }
-        }
-      }
-      return newState;
-    });
+    const oneHourBlocksToSelect = this.oneHourBlocks()?.filter(block => block.index() % this.itemsPerRow === colInd);
+    const isSelected = !this.getAllQuarterHoursOfOneHourBlocksAreSelected(oneHourBlocksToSelect);
+    oneHourBlocksToSelect.forEach(block => block?.setSelectedOfFullHour(true, isSelected))
   }
 
+  //special selectors
+  protected selectQuartet(ind: number): void {
+    const oneHourBlocksToSelect = [
+      this.oneHourBlocks()?.at(ind),
+      this.oneHourBlocks()?.at(ind + 1),
+      this.oneHourBlocks()?.at(ind + this.itemsPerRow),
+      this.oneHourBlocks()?.at(ind + this.itemsPerRow + 1),
+    ]
+    const isSelected = !this.getAllQuarterHoursOfOneHourBlocksAreSelected(oneHourBlocksToSelect);
+    oneHourBlocksToSelect.forEach(block => block?.setSelectedOfFullHour(true, isSelected))
+  }
+
+  protected selectTwoVertical(ind: number): void {
+    const oneHourBlocksToSelect = [
+      this.oneHourBlocks()?.at(ind),
+      this.oneHourBlocks()?.at(ind + this.itemsPerRow),
+    ]
+    const isSelected = !this.getAllQuarterHoursOfOneHourBlocksAreSelected(oneHourBlocksToSelect);
+    oneHourBlocksToSelect.forEach(block => block?.setSelectedOfFullHour(true, isSelected))
+  }
+
+  protected selectTwoHorizontal(ind: number): void {
+    const oneHourBlocksToSelect = [
+      this.oneHourBlocks()?.at(ind),
+      this.oneHourBlocks()?.at(ind + 1),
+    ]
+    const isSelected = !this.getAllQuarterHoursOfOneHourBlocksAreSelected(oneHourBlocksToSelect);
+    oneHourBlocksToSelect.forEach(block => block?.setSelectedOfFullHour(true, isSelected))
+  }
+
+  //events
   protected onOneHourQuarterHoursSelecionChange(quarterHoursSelection: boolean[], hour: number): void {
-    console.log("now");
     this.quarterHoursSelection.update((state) => {
       const newState: boolean[][] = JSON.parse(JSON.stringify(state));
       newState[hour] = quarterHoursSelection;
@@ -101,5 +115,12 @@ export class OneDayGridComponent {
     })
   }
 
+  //getters
+  getQuarterHoursSelection(): boolean[][] {
+    return this.quarterHoursSelection();
+  }
 
+  getAllQuarterHoursOfOneHourBlocksAreSelected(oneHourBlocks: (OneHourBlockComponent | undefined)[]): boolean {
+    return oneHourBlocks.find(block => !block?.getAllQuarterHoursSelected()) === undefined
+  }
 }

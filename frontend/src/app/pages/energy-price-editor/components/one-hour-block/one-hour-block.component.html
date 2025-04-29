@@ -1,6 +1,7 @@
-<button class="one-hour-block" (click)="setSelectedOfFullHour(true)" >
+<div class="one-hour-block" >
+  <button class="clickable-bg" (click)="setSelectedOfFullHour()"></button>
   <div class="block-infos">
-    <p>{{hour()}} - {{hour()+1}} Uhr</p>
+    <p>{{index()}} - {{index()+1}} Uhr</p>
   </div>
   <div class="chart">
     @for(quarterHour of quarterHourValues();track $index){
@@ -12,4 +13,4 @@
     </button>
     }
   </div>
-</button>
+</div>

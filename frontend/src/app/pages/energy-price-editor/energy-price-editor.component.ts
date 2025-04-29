@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, model, signal } from '@angular/core';
+import { Component, computed, effect, model, signal, viewChild, viewChildren } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
@@ -17,8 +17,12 @@ import { PRICE_VALUES_DUMMY_DATA_ONE, PRICE_VALUES_DUMMY_DATA_TWO } from './comp
   imports: [CommonModule, SelectionConfiguratorComponent, OneDayGridComponent, MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule, MatIconModule],
 })
 export class EnergyPriceEditorComponent {
-  protected price = model(0);
 
+  //viewchildren
+  private oneDayGrid = viewChild(OneDayGridComponent);
+
+  //data
+  protected price = model(0);
   protected allDaysData = signal<OneDayData[]>([
     {
       date: new Date('2025-04-28T00:00:00.588Z').toISOString(),
@@ -30,21 +34,38 @@ export class EnergyPriceEditorComponent {
     }
   ])
 
-  protected currentSelectedDataInd = signal(0);
+  //derived data
 
   protected currentSelectedDayData = computed<OneDayData>(() => {
     return this.allDaysData()[this.currentSelectedDataInd()];
   });
 
-  constructor() {
-    effect(() => {
-      console.log(this.price());
-    });
+  //flags
+  protected currentSelectedDataInd = signal(0);
+
+
+  protected onPriceInputChange(): void {
+    const quarterHoursSelection = this.oneDayGrid()?.getQuarterHoursSelection();
+    if (quarterHoursSelection) {
+      this.allDaysData.update(state => {
+        const newState:OneDayData[] = JSON.parse(JSON.stringify(state));
+        const prices = this.currentSelectedDayData().prices;
+        const result: number[][] = [];
+
+        for (let i = 0; i < prices.length; i++) {
+          const row: number[] = [];
+          for (let j = 0; j < prices[i].length; j++) {
+            row.push(quarterHoursSelection[i][j] ? this.price() : prices[i][j]);
+          }
+          result.push(row);
+        }
+
+        newState[this.currentSelectedDataInd()].prices = result;
+
+        return newState;
+      });
+    }
   }
-
-
-
-
 }
 
 

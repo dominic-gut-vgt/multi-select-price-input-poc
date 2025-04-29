@@ -14,9 +14,36 @@
   </button>
   }
   <div class="one-hour-container">
-    <app-one-hour-block [hour]="$index" [quarterHourValues]="quarterHouerValues"
-      [quarterHourChangeAllowed]="quarterHourChangeAllowed()[$index]" [quarterHoursSelection]="quarterHoursSelection()[$index]"
-      [maxInterdayValue]="maxInterdayValue()" (quarterHoursSelectionChange)="onOneHourQuarterHoursSelecionChange($event,$index)" ></app-one-hour-block>
+    <!-- One hour block -->
+    <app-one-hour-block [index]="$index" [quarterHourValues]="quarterHouerValues"
+      [quarterHourChangeAllowed]="quarterHourChangeAllowed()[$index]"
+      [quarterHoursSelection]="quarterHoursSelection()[$index]" [maxInterdayValue]="maxInterdayValue()"
+      (quarterHoursSelectionChange)="onOneHourQuarterHoursSelecionChange($event,$index)"></app-one-hour-block>
+
+    <!-- quartet selector -->
+    @if(!($index%itemsPerRow===3)){
+    @if($index<20){ <button class="quartet-selector special-selector" (click)="selectQuartet($index)">
+      <div class="special-selector-visualisation"></div>
+      </button>
+      }
+
+
+      <!-- dual selector horizontal-->
+      <div class="dual-selector-horizontal-container">
+        <button class="dual-selector-horizontal special-selector" (click)="selectTwoHorizontal($index)">
+          <div class="special-selector-visualisation"></div>
+        </button>
+      </div>
+      }
+
+      <!-- dual selector vertical-->
+      @if($index<20){ <div class="dual-selector-vertical-container">
+        <button class="dual-selector-vertical special-selector" (click)="selectTwoVertical($index)">
+          <div class="special-selector-visualisation"></div>
+        </button>
   </div>
   }
+
+</div>
+}
 </div>
