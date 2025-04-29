@@ -11,20 +11,22 @@ export class OneHourBlockComponent {
   //inputs
   index = input.required<number>();
   maxInterdayValue = input.required<number>();
-  quarterHourChangeAllowed = input.required<boolean[]>(); //4 booleans if hour could be changed
-  quarterHourValues = model.required<number[]>(); // 4 quarter hours in an hour
-  quarterHoursSelection = model.required<boolean[]>(); // 4 values if quarter hour is selected
+  quarterHourEditAllowed = input.required<boolean[]>(); //4 booleans if hour could be changed
+  quarterHourValues = model.required<number[]>(); // 4 quarter hour values (prices) in an hour
+  quarterHoursSelection = model.required<boolean[]>(); // 4 booleans if quarter hour is selected
 
   protected quarterHourValuesAsPercentages = computed(() => {
     return this.quarterHourValues().map(val => val / this.maxInterdayValue() * 100);
   });
 
   protected toggleQuarterHourSelection(ind: number): void {
+   if(this.quarterHourEditAllowed()[ind]){
     this.quarterHoursSelection.update((state) => {
       const newState: boolean[] = [...state];
       newState[ind] = !newState[ind];
       return newState;
     });
+   }
   }
 
   public setSelectedOfFullHour(force:boolean=false,isSelected:boolean=true): void {
@@ -35,12 +37,16 @@ export class OneHourBlockComponent {
     }
    
     this.quarterHoursSelection.update((state) => {
-      return Array.from({ length: state.length }, () => isSelected);
+      const newState:boolean[]=[];
+      for(let i=0;i<state.length;i++){
+        newState.push(isSelected && this.quarterHourEditAllowed()[i]);
+      }
+      return newState;
     });
   }
 
   public getAllQuarterHoursSelected(): boolean {
-    return this.quarterHoursSelection().find(s => !s) === undefined;
+    return this.quarterHoursSelection().find((s,i) => !s && this.quarterHourEditAllowed()[i]) === undefined;
   }
 
 }

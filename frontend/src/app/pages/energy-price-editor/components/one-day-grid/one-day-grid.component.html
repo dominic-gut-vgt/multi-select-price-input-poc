@@ -16,7 +16,7 @@
   <div class="one-hour-container">
     <!-- One hour block -->
     <app-one-hour-block [index]="$index" [quarterHourValues]="quarterHouerValues"
-      [quarterHourChangeAllowed]="quarterHourChangeAllowed()[$index]"
+      [quarterHourEditAllowed]="quarterHoursEditAllowed()[$index]"
       [quarterHoursSelection]="quarterHoursSelection()[$index]" [maxInterdayValue]="maxInterdayValue()"
       (quarterHoursSelectionChange)="onOneHourQuarterHoursSelecionChange($event,$index)"></app-one-hour-block>
 

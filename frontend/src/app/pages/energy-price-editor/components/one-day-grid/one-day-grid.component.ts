@@ -20,6 +20,7 @@ export class OneDayGridComponent {
 
   //consts
   protected readonly itemsPerRow = 4;
+  private readonly changeAllowedAfterThresholdMS = 15 * 60 * 1000; //15 min. Values more than this time in the future are editable. 
 
   //viewchildren
   private oneHourBlocks = viewChildren(OneHourBlockComponent);
@@ -45,14 +46,18 @@ export class OneDayGridComponent {
   protected quarterHoursSelection = signal<boolean[][]>(Array.from({ length: 24 }, () => Array.from({ length: 4 }, () => false))); // which quarter hours are selected
 
   //derived flags
-  protected quarterHourChangeAllowed = computed(() => {
+  protected quarterHoursEditAllowed = computed(() => {
     const allowedMap = Array.from({ length: 24 }, () => Array.from({ length: 4 }, () => false));
     const now = new Date();
-    const currentDayOfData = new Date(this.oneDayData().date);
+    const nowWithThreshold = new Date(now.getTime() + this.changeAllowedAfterThresholdMS);
+    const dayOfCurrentData = new Date(this.oneDayData().date);
 
     for (let i = 0; i < 24; i++) {
       for (let j = 0; j < 4; j++) {
-        const isBeforeNow = currentDayOfData.getTime() < now.getTime(); //todo correct check
+        const hours = i;
+        const minutes = 15 * j;
+        dayOfCurrentData.setHours(hours, minutes);
+        const isBeforeNow = dayOfCurrentData.getTime() < nowWithThreshold.getTime(); //todo correct check
         if (isBeforeNow) {
           allowedMap[i][j] = false;
         } else {
@@ -63,7 +68,7 @@ export class OneDayGridComponent {
     return allowedMap
   });
 
-
+  //selection----------------------------------------
   protected selectRow(rowInd: number): void {
     const oneHourBlocksToSelect = this.oneHourBlocks()?.filter(block => block.index() >= rowInd * this.itemsPerRow && block.index() < rowInd * this.itemsPerRow + this.itemsPerRow);
     const isSelected = !this.getAllQuarterHoursOfOneHourBlocksAreSelected(oneHourBlocksToSelect);
@@ -115,7 +120,7 @@ export class OneDayGridComponent {
     })
   }
 
-  //getters
+  //getters---------------------------------------------
   getQuarterHoursSelection(): boolean[][] {
     return this.quarterHoursSelection();
   }

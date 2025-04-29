@@ -42,7 +42,7 @@ $chart-height:70px;
       pointer-events: all;
 
       &.change-allowed {
-        background-color: var(--secondary-color);
+        background-color: var(--gray-700);
       }
 
       &.selected {

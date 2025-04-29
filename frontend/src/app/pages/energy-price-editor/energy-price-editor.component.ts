@@ -25,7 +25,7 @@ export class EnergyPriceEditorComponent {
   protected price = model(0);
   protected allDaysData = signal<OneDayData[]>([
     {
-      date: new Date('2025-04-28T00:00:00.588Z').toISOString(),
+      date: new Date('2025-04-29T00:00:00.588Z').toISOString(),
       prices: PRICE_VALUES_DUMMY_DATA_ONE,
     },
     {
