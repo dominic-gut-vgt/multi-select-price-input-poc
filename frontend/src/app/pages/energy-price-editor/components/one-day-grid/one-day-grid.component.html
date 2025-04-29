@@ -1,11 +1,18 @@
 <!-- Header item -->
 <div class="grid-header">
-  @for(ind of [].constructor(4);track $index){
-  <button class="header-item" (click)="selectCol($index)"
-    (mouseenter)="specialSelectorHoverChange($index,true,specialSelectorType.Col)"
-    (mouseleave)="specialSelectorHoverChange($index,false,specialSelectorType.Col)">
+  @for(ind of [].constructor(5);track $index){
+  @if($index===0){
+  <div class="header-item">
+    <button mat-button (click)="deselectAll()" [disabled]="!anyQuarterHoursSelected()" >Deselect all <mat-icon>cancel</mat-icon></button>
+    <button mat-button (click)="selectAll()" [disabled]="allQuarterHoursSelected()">Select all <mat-icon>radio_button_checked</mat-icon></button>
+  </div>
+  }@else {
+  <button class="header-item" (click)="selectCol($index-1)"
+    (mouseenter)="specialSelectorHoverChange($index-1,true,specialSelectorType.Col)"
+    (mouseleave)="specialSelectorHoverChange($index-1,false,specialSelectorType.Col)">
     <p class="mb-0">col {{$index+1}}</p>
   </button>
+  }
   }
 </div>
 

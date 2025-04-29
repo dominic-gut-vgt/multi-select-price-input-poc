@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, input, output, signal, viewChildren } from '@angular/core';
 import { OneHourBlockComponent } from '../one-hour-block/one-hour-block.component';
 import { OneDayData } from '../../interfaces/one-day-data.interface';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 interface RowBounds {
   min: number,
@@ -20,7 +22,7 @@ enum SpecialSelectorType {
   selector: 'app-one-day-grid',
   templateUrl: './one-day-grid.component.html',
   styleUrl: './one-day-grid.component.scss',
-  imports: [CommonModule, OneHourBlockComponent],
+  imports: [CommonModule, OneHourBlockComponent, MatButtonModule, MatIcon],
 })
 export class OneDayGridComponent {
   //inputs
@@ -77,6 +79,18 @@ export class OneDayGridComponent {
     return allowedMap
   });
 
+  protected anyQuarterHoursSelected = computed(() => {
+    return this.quarterHoursSelection().some(hour =>
+      hour.some(quarter => quarter === true)
+    );
+  });
+
+  protected allQuarterHoursSelected = computed(() => {
+    return this.quarterHoursSelection().every((hour,i) =>
+      hour.every((quarter,j) => quarter === true || !this.quarterHoursEditAllowed()[i][j])
+    );
+  });
+
   //selection----------------------------------------
   protected selectRow(rowInd: number): void {
     const oneHourBlocksToSelect = this.getOneHourBlocksRow(rowInd);
@@ -88,6 +102,14 @@ export class OneDayGridComponent {
     const oneHourBlocksToSelect = this.getOneHourBlocksCol(colInd);
     const isSelected = !this.getAllQuarterHoursOfOneHourBlocksAreSelected(oneHourBlocksToSelect);
     oneHourBlocksToSelect.forEach(block => block?.setSelectedOfFullHour(true, isSelected))
+  }
+
+  protected selectAll(): void {
+    this.oneHourBlocks()?.forEach(block => block.setSelectedOfFullHour(true, true));
+  }
+
+  protected deselectAll(): void {
+    this.oneHourBlocks()?.forEach(block => block.setSelectedOfFullHour(true, false));
   }
 
   //special selectors
@@ -111,7 +133,6 @@ export class OneDayGridComponent {
 
   //sepcial selectors on hover
   specialSelectorHoverChange(ind: number, isOver: boolean, specialSelectorType: SpecialSelectorType): void {
-    console.log(ind, isOver, specialSelectorType);
     let oneHourBlocksToHighlight: (OneHourBlockComponent | undefined)[] = [];
     switch (specialSelectorType) {
       case SpecialSelectorType.Row: oneHourBlocksToHighlight = this.getOneHourBlocksRow(ind); break;

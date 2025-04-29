@@ -1,4 +1,9 @@
 $chart-height:70px;
+$color-selected:var(--primary-color);
+$color-highlighted:#ffd4bb;
+$color-not-editable:var(--gray-300);
+$color-editable:var(--gray-700);
+
 
 .one-hour-block {
   width: calc(100%);
@@ -11,8 +16,20 @@ $chart-height:70px;
   transition: 0.4s border, 0.4s box-shadow;
 
   &.highlighted{
-    border: solid 1px var(--gray-500);
+    border: solid 1px var(--gray-300);
     box-shadow: var(--box-shadow-strong);
+
+    .chart{
+      .bar{
+        &.edit-allowed{
+          background-color: $color-highlighted;
+        }
+
+        &.selected {
+          background-color: $color-selected;
+        }
+      }
+    }
   }
 
   .clickable-bg {
@@ -43,16 +60,16 @@ $chart-height:70px;
     .bar {
       width: calc(100% / 4 - var(--space-1) * 2);
       margin: 0px var(--space-1);
-      background-color: var(--gray-300);
+      background-color: $color-not-editable;
       transition: 0.4s height, 0.4s background-color;
       pointer-events: all;
 
-      &.change-allowed {
-        background-color: var(--gray-700);
+      &.edit-allowed {
+        background-color: $color-editable;
       }
 
       &.selected {
-        background-color: var(--primary-color);
+        background-color: $color-selected;
       }
     }
   }

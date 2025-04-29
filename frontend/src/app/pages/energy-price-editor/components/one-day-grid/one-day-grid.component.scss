@@ -1,14 +1,19 @@
 .grid-header {
   display: flex;
-  margin-left: calc(100% / 5);
 
   .header-item {
     margin: var(--space-2);
     padding: var(--space-2);
-    width: calc(100% / 4);
+    width: calc(100% / 5);
 
     display: flex;
     justify-content: center;
+
+    &:first-child{
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
   }
 }
 

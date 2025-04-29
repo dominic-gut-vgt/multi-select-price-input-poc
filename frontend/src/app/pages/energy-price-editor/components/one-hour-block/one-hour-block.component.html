@@ -7,7 +7,7 @@
     @for(quarterHour of quarterHourValues();track $index){
     <button [ngClass]="{
       'bar':true,
-      'change-allowed':quarterHourEditAllowed()[$index],
+      'edit-allowed':quarterHourEditAllowed()[$index],
       'selected':quarterHoursSelection()[$index]
     }" [ngStyle]="{'height':quarterHourValuesAsPercentages()[$index]+'%'}" (click)="toggleQuarterHourSelection($index)" >
     </button>
