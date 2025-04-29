@@ -1,8 +1,5 @@
 <div [ngClass]="isHighlighted()?'one-hour-block highlighted':'one-hour-block'" >
   <button class="clickable-bg" (click)="setSelectedOfFullHour()"></button>
-  <div class="block-infos">
-    <p>{{index()}} - {{index()+1}} Uhr</p>
-  </div>
   <div class="chart">
     @for(quarterHour of quarterHourValues();track $index){
     <button [ngClass]="{
@@ -12,5 +9,8 @@
     }" [ngStyle]="{'height':quarterHourValuesAsPercentages()[$index]+'%'}" (click)="toggleQuarterHourSelection($index)" >
     </button>
     }
+  </div>
+  <div class="block-infos">
+    <p class="mb-0">{{index()}} - {{index()+1}} Uhr</p>
   </div>
 </div>

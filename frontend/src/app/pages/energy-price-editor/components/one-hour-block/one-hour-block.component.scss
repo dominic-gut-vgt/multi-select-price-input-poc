@@ -1,27 +1,26 @@
-$chart-height:70px;
-$color-selected:var(--primary-color);
-$color-highlighted:#ffd4bb;
-$color-not-editable:var(--gray-300);
-$color-editable:var(--gray-700);
+$chart-height: 40px;
+$color-selected: var(--primary-color);
+$color-not-editable: var(--gray-300);
+$color-editable: var(--gray-700);
 
 
 .one-hour-block {
   width: calc(100%);
-  width: calc(100%);
-  padding: var(--space-3);
+  padding:var(--space-3) var(--space-3) var(--space-1) var(--space-3);
   border-radius: var(--radius-m);
   position: relative;
   box-shadow: var(--box-shadow-std);
   border: solid 1px var(--gray-100);
   transition: 0.4s border, 0.4s box-shadow;
 
-  &.highlighted{
-    border: solid 1px var(--gray-300);
+  &.highlighted {
+    border: solid 1px var(--primary-color);
     box-shadow: var(--box-shadow-strong);
 
-    .chart{
-      .bar{
-        &.edit-allowed{
+    /*
+    .chart {
+      .bar {
+        &.edit-allowed {
           background-color: $color-highlighted;
         }
 
@@ -30,6 +29,7 @@ $color-editable:var(--gray-700);
         }
       }
     }
+    */
   }
 
   .clickable-bg {
@@ -39,12 +39,6 @@ $color-editable:var(--gray-700);
     z-index: 1;
     width: 100%;
     height: 100%;
-  }
-
-  .block-infos {
-    p {
-      color: var(--gray-300);
-    }
   }
 
   .chart {
@@ -71,6 +65,12 @@ $color-editable:var(--gray-700);
       &.selected {
         background-color: $color-selected;
       }
+    }
+  }
+
+  .block-infos {
+    p {
+      color: var(--gray-300);
     }
   }
 }

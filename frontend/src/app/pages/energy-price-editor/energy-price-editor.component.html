@@ -1,14 +1,35 @@
 <section>
   <div class="container">
-    <div class="row py-5 my-5">
+    <div class="row py-5">
       <div class="col-12 d-flex justify-content-end">
-        <mat-form-field class="w-50">
-          <mat-label>Preis Eingabe für ausgewählte Viertelstunden</mat-label>
-          <input matInput type="number" [min]="0" [(ngModel)]="price" (input)="onPriceInputChange()">
-        </mat-form-field>
+
+        <form [formGroup]="form" class="w-75 d-flex justify-content-between">
+          <mat-form-field appearance="fill" class="w-25">
+            <mat-label>Gebäudegruppe</mat-label>
+            <mat-select [formControlName]="FGK.ProductGroup">
+              @for(buildingGroup of buildingGroups();track buildingGroup){
+              <mat-option [value]="buildingGroup">
+                {{ buildingGroup }}
+              </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill"  class="w-25">
+            <mat-label>Datum</mat-label>
+            <input matInput [matDatepicker]="picker" [formControlName]="FGK.Date">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill"  class="w-25">
+            <mat-label>Preis</mat-label>
+            <input matInput type="number" [formControlName]="FGK.Price">
+          </mat-form-field>
+        </form>
       </div>
       <div class="col-12">
-        <app-one-day-grid [oneDayData]="currentSelectedDayData()" ></app-one-day-grid>
+        <app-one-day-grid [oneDayData]="currentSelectedDayData()"></app-one-day-grid>
       </div>
     </div>
   </div>
